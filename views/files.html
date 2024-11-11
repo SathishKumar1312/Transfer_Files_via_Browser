@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FILE PREVIEW</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h3>Files :<ol id="elem"></ol></h3>
+    <script>
+
+      let files = document.getElementById("elem");
+
+      fetch("/data")
+        .then((res) => res.json())
+        .then((data) => {
+          let error = data.message;
+          let fileName = data.fileNames;
+          if(error){
+            files.innerHTML = `<h1>${error}</h1>`;
+          }
+          else {
+            fileName.forEach((element,i) => {
+              files.innerHTML += `<li><button><a href="/files/${i}" target="_blank">${element}</a></button></li><br>`
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    </script>
+  </body>
+</html>
